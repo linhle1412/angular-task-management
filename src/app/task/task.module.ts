@@ -13,6 +13,8 @@ import { TaskItemComponent } from './components/task-item/task-item.component';
 import { TaskFormComponent } from './components/task-form/task-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TaskDetailComponent } from './components/task-detail/task-detail.component';
+import { PriorityPipe } from './pipes/priority.pipe';
+import { StatusPipe } from './pipes/status.pipe';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { TaskDetailComponent } from './components/task-detail/task-detail.compon
     TaskItemComponent,
     TaskFormComponent,
     TaskDetailComponent,
+    PriorityPipe,
+    StatusPipe,
   ],
   imports: [
     CommonModule,

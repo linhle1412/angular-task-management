@@ -15,8 +15,8 @@ export const loadTasks = createEffect(
   (actions$ = inject(Actions), taskService = inject(TaskService)) => {
     return actions$.pipe(
       ofType(TasksActionTypes.LoadTasks),
-      switchMap((action) =>
-        taskService.getTasks(action.status).pipe(
+      switchMap((queryParams) =>
+        taskService.getTasks(queryParams).pipe(
           map((tasks) => loadTasksSuccess({ tasks })),
           catchError(() => EMPTY)
         )

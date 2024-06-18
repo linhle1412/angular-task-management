@@ -20,6 +20,10 @@ export class ProfileComponent {
         email: user.email,
       });
     });
+    this.form.setValue({
+      displayName: this.authService.profile.displayName,
+      email: this.authService.profile.email,
+    });
   }
   get displayName() {
     return this.form.get('displayName');

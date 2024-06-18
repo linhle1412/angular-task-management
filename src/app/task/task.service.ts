@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, from, map } from 'rxjs';
-import { ITask } from './task.type';
+import { ITask, ITasksQueryParams } from './task.type';
 import {
   Firestore,
   addDoc,
@@ -12,6 +12,9 @@ import {
   query,
   where,
   updateDoc,
+  orderBy,
+  startAt,
+  endAt,
 } from '@angular/fire/firestore';
 
 @Injectable({
@@ -22,17 +25,32 @@ export class TaskService {
 
   constructor() {}
 
-  getTasks(status: string): Observable<ITask[]> {
+  getTasks({
+    status,
+    q,
+    orderByPriorityDirection,
+  }: ITasksQueryParams): Observable<ITask[]> {
+    // console.log('stats', status);
     const itemCollection = collection(this.firestore, 'task');
-    const appQuery = query(itemCollection, where('status', '==', status));
+    const appQuery = query(
+      itemCollection,
+      where('status', '==', status),
+      where('title', '>=', q),
+      where('title', '<=', q + '\uf8ff'),
+      orderBy('priority', orderByPriorityDirection)
+      // orderBy('title'),
+      // startAt('task'),
+      // endAt('task' + '\uf8ff')
+      // where('title', 'array-contains', ['1'])
+    );
 
     return collectionSnapshots(appQuery).pipe(
       map((action) => action.map((a) => Object.assign(a.data(), { id: a.id })))
     ) as Observable<ITask[]>;
   }
 
-  getTaskDetail(id: string) {
-    return from(getDoc(doc(this.firestore, 'task', id)));
+  getTaskDetail(taskId: string) {
+    return from(getDoc(doc(this.firestore, 'task', taskId)));
   }
 
   async addTask(data: ITask) {
@@ -43,16 +61,10 @@ export class TaskService {
     }
   }
 
-  async updateTask(id: string, data: ITask) {
+  async updateTask(taskId: string, data: ITask) {
     try {
-      await updateDoc(doc(this.firestore, 'task', id), {
-        title: data.title,
-        description: data.description,
-        due_date: data.due_date,
-        created_at: data.created_at,
-        status: data.status,
-        priority: data.priority,
-      });
+      const { id, ...dataUpdate } = data;
+      await updateDoc(doc(this.firestore, 'task', taskId), { ...dataUpdate });
     } catch (e: any) {
       throw e.message;
     }

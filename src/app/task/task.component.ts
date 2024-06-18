@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ITask } from './task.type';
+import { ITask, ITasksQueryParams } from './task.type';
 import { Store, select } from '@ngrx/store';
 import { TaskState } from './store/task.reducer';
 import { TasksActionTypes, loadTasks } from './store/task.actions';
@@ -15,7 +15,12 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class TaskComponent implements OnInit {
   tasks$: Observable<ITask[]>;
-  filterStatus: string = 'new';
+  searchValue: string = '';
+  filterParams: ITasksQueryParams = {
+    status: 'new',
+    orderByPriorityDirection: 'desc',
+    q: '',
+  };
 
   constructor(
     private store: Store<TaskState>,
@@ -26,7 +31,11 @@ export class TaskComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(loadTasks({ status: this.filterStatus }));
+    this.loadData();
+  }
+
+  loadData() {
+    this.store.dispatch(loadTasks(this.filterParams));
   }
 
   async onRemoveTask(id: string) {
@@ -38,6 +47,15 @@ export class TaskComponent implements OnInit {
     }
   }
   onChangeStatus($event: string) {
-    this.store.dispatch(loadTasks({ status: $event }));
+    this.filterParams.status = $event;
+    this.loadData();
+  }
+  onSort($event: 'desc' | 'asc') {
+    this.filterParams.orderByPriorityDirection = $event;
+    this.loadData();
+  }
+  onSearch() {
+    this.filterParams.q = this.searchValue;
+    this.loadData();
   }
 }

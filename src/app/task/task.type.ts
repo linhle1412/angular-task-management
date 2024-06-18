@@ -8,3 +8,9 @@ export interface ITask {
   priority: string;
   assignee_id: string;
 }
+
+export interface ITasksQueryParams {
+  status: string;
+  q: string;
+  orderByPriorityDirection: 'asc' | 'desc';
+}

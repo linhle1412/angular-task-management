@@ -25,7 +25,7 @@ export class TaskFormComponent {
     due_date: new FormControl(''),
     created_at: new FormControl(''),
     status: new FormControl('new'),
-    priority: new FormControl('low'),
+    priority: new FormControl('0'),
   });
 
   constructor(

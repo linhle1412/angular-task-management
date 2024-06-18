@@ -6,9 +6,9 @@
     {{ task.title }}
   </div>
   <div class="flex-1">{{ task.description }}</div>
-  <div class="w-32">{{ task.status }}</div>
+  <div class="w-32">{{ task.status | status }}</div>
   <div class="w-32">{{ task.due_date | date : "mediumDate" }}</div>
-  <div class="w-32">{{ task.priority }}</div>
+  <div class="w-32">{{ task.priority | priority }}</div>
   <div class="w-32">{{ task.assignee_id }}</div>
   <div class="w-[50px]">
     <button (click)="removeTask($event)">

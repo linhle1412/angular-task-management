@@ -15,8 +15,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { ProfileModule } from './profile/profile.module';
-import { HomeComponent } from './home/home.component';
 import { HomeModule } from './home/home.module';
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,6 +35,8 @@ import { HomeModule } from './home/home.module';
     EffectsModule.forRoot([]),
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    InputTextModule,
+    PasswordModule,
   ],
   providers: [
     provideFirebaseApp(() =>

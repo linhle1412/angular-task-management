@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { ITask } from '../task.type';
+import { ITask, ITasksQueryParams } from '../task.type';
 
 export enum TasksActionTypes {
   LoadTasks = '[Tasks] Load Tasks',
@@ -12,7 +12,7 @@ export enum TasksActionTypes {
 
 export const loadTasks = createAction(
   TasksActionTypes.LoadTasks,
-  props<{ status: string }>()
+  props<ITasksQueryParams>()
 );
 export const loadTasksSuccess = createAction(
   TasksActionTypes.LoadTasksSuccess,
